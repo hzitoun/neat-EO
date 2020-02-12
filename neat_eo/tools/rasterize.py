@@ -47,14 +47,21 @@ def add_parser(subparser, formatter_class):
     parser.set_defaults(func=main)
 
 
-def worker_spatial_index(zoom, buffer, geojson_file):
-    geojson = open(os.path.expanduser(geojson_file))
-    feature_collection = json.load(geojson)
-    srid = geojson_srid(feature_collection)
+def worker_spatial_index(zoom, buffer, add_progress, geojson_path):
+    geojson = open(os.path.expanduser(geojson_path))
+    assert geojson, "Unable to open {}".format(geojson_path)
+    fc = json.load(geojson)
+    srid = geojson_srid(fc)
 
     feature_map = collections.defaultdict(list)
-    for i, feature in enumerate(tqdm(feature_collection["features"], ascii=True, unit="feature")):
+    if add_progress:
+        progress = tqdm(total=len(fc["features"]), ascii=True, unit="feature")
+    for feature in fc["features"]:
         feature_map = geojson_parse_feature(zoom, srid, feature_map, feature, buffer)
+        if add_progress:
+            progress.update()
+    if add_progress:
+        progress.close()
     return feature_map
 
 
@@ -94,18 +101,29 @@ def main(args):
         zoom = tiles[0].z
         assert not [tile for tile in tiles if tile.z != zoom], "Unsupported zoom mixed cover. Use PostGIS instead"
 
-        features = args.geojson
-        feature_map = collections.defaultdict(list)
-
         workers = min(args.workers, len(args.geojson))
         log.log("neo rasterize - Compute spatial index with {} workers".format(workers))
+
+        progress = None
+        log_from = args.geojson
+        if len(args.geojson) > 42:  # Arbitrary ∩ Funny
+            progress = tqdm(total=len(args.geojson), ascii=True, unit="file")
+            log_from = "{} geojson files".format(len(args.geojson))
+
+        feature_map = collections.defaultdict(list)
         with futures.ProcessPoolExecutor(workers) as executor:
-            for fm in executor.map(partial(worker_spatial_index, zoom, args.buffer), args.geojson):
+            for fm in executor.map(
+                partial(worker_spatial_index, zoom, args.buffer, True if progress is None else False), args.geojson
+            ):
                 for k, v in fm.items():
                     try:
                         feature_map[k] += v
                     except KeyError:
                         feature_map[k] = v
+                if progress:
+                    progress.update()
+            if progress:
+                progress.close()
 
     if args.sql:
         conn = psycopg2.connect(args.pg)
@@ -115,14 +133,14 @@ def main(args):
         srid = db.fetchone()[0]
         assert srid and int(srid) > 0, "Unable to retrieve geometry SRID."
 
-        features = args.sql
+        log_from = args.sql
 
     if not len(feature_map):
         log.log("-----------------------------------------------")
         log.log("NOTICE: no feature to rasterize, seems peculiar")
         log.log("-----------------------------------------------")
 
-    log.log("neo rasterize - rasterizing {} from {} on cover {}".format(args.type, features, args.cover))
+    log.log("neo rasterize - rasterizing {} from {} on cover {}".format(args.type, log_from, args.cover))
     with open(os.path.join(os.path.expanduser(args.out), args.type.lower() + "_cover.csv"), mode="w") as cover:
 
         for tile in tqdm(tiles, ascii=True, unit="tile"):
