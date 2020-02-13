@@ -1,4 +1,5 @@
-<a href="https://twitter.com/neat_eo"><img src="https://img.shields.io/badge/Follow-neat_eo-ff69b4.svg" /></a> <a href="https://gitter.im/Neat-EO-pink/community"><img src="https://img.shields.io/gitter/room/Neat-EO-pink/community.svg?color=ff69b4&style=popout" /></a>
+<a href="https://twitter.com/neat_eo"><img src="https://img.shields.io/badge/Follow-neat_eo-ff69b4.svg" /></a> <a href="https://gitter.im/Neat-EO-pink/community"><img src="https://img.shields.io/gitter/room/Neat-EO-pink/community.svg?color=ff69b4&style=popout" /></a> 
+<a href="https://pepy.tech/project/neat-eo/week"><img align="right" src="https://pepy.tech/badge/neat-eo/week" /></a>
 
 <h1 align='center'>neat-EO</h1>
 <h2 align='center'>Efficient AI4EO OpenSource framework</h2>
@@ -183,7 +184,7 @@ Citing:
 -------
 ```
   @Manual{,
-    title = {neat-EO} Computer Vision framework for GeoSpatial Imagery},
+    title = {neat-EO} Efficient AI4EO OpenSource framework},
     author = {Olivier Courtin, Daniel J. Hofmann},
     organization = {DataPink},
     year = {2020},
