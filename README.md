@@ -80,7 +80,7 @@ pip3 install neat-EO
 sudo sh -c "apt update && apt install -y build-essential python3-pip"
 pip3 install neat-EO && export PATH=$PATH:~/.local/bin
 
-# NVIDIA GPU Drivers [mandatory]
+# NVIDIA GPU Drivers [mandatory for train and predict]
 wget http://us.download.nvidia.com/XFree86/Linux-x86_64/435.21/NVIDIA-Linux-x86_64-435.21.run
 sudo sh NVIDIA-Linux-x86_64-435.21.run -a -q --ui=none
 
