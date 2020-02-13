@@ -54,7 +54,7 @@ Documentation:
 - <a href="https://github.com/datapink/neat-eo/blob/master/docs/tools.md#neo-eval">`neo eval`</a> Evals a model on a dataset
 - <a href="https://github.com/datapink/neat-eo/blob/master/docs/tools.md#neo-export">`neo export`</a> Export a model to ONNX or Torch JIT
 - <a href="https://github.com/datapink/neat-eo/blob/master/docs/tools.md#neo-predict">`neo predict`</a> Predict masks, from a dataset, with an already trained model
-- <a href="https://github.com/datapink/neat-eo/blob/master/docs/tools.md#neo-compare">`neo compare`</a> Compute composite images and/or metrics to compare several XYZ dirs
+- <a href="https://github.com/datapink/neat-eo/blob/master/docs/tools.md#neo-compare">`neo compare`</a> Compute composite images and/or metrics to compare several slippy map dirs
 - <a href="https://github.com/datapink/neat-eo/blob/master/docs/tools.md#neo-vectorize">`neo vectorize`</a> Extract GeoJSON features from predicted masks
 - <a href="https://github.com/datapink/neat-eo/blob/master/docs/tools.md#neo-info">`neo info`</a> Print neat-EO version informations
 
