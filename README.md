@@ -20,12 +20,12 @@ Purposes:
 Main Features:
 --------------
 - Provides several command line tools, you can combine together to build your own workflow
-- Follows geospatial standards to ease interoperability and data preparation 
-- Build-in cutting edge Computer Vision model, Data Augmentation and Loss implementations (and allows to replace by your owns)
+- Follows geospatial standards to ease interoperability and performs fast data preparation 
+- Build-in cutting edge Computer Vision papers implementation
 - Support either RGB and multibands imagery, and allows Data Fusion 
 - Web-UI tools to easily display, hilight or select results (and allow to use your own templates)
 - High performances
-- Eeasily extensible by design
+- Extensible by design
 
 
 
